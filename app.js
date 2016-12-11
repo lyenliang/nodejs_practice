@@ -7,6 +7,24 @@ app.use(logger);
 
 app.use(express.static('public'));
 
+var blocks = {
+    'Fixed': 'Fastened securely in position',
+    'Movable': 'Capable of being moved',
+    'Rotating': 'Moving in a circle around its center'
+};
+
+// dynamic route
+app.get('/blocks/:name', function(request, response) {
+    // curl -i http://localhost:3000/blocks/Fixed
+    var description = blocks[request.params.name];
+    if (!description) {
+        // description is undefined
+        response.status(404).json('No description found for ' + request.params.name);
+    } else {
+        response.json(description);
+    }
+}); 
+
 app.get('/blocks', function(request, response) {
     var blocks = ['Fixed', 'Movable', 'Rotating'];
     if (request.query.limit >= 0) {
