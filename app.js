@@ -7,6 +7,9 @@ app.use(logger);
 
 app.use(express.static('public'));
 
+var bodyParser = require('body-parser');
+var parseUrlencoded = bodyParser.urlencoded({ extended: false});
+
 var blocks = {
     'Fixed': 'Fastened securely in position',
     'Movable': 'Capable of being moved',
@@ -16,6 +19,14 @@ var blocks = {
 var locations = {
     'Fixed': 'First floor', 'Movable': 'Second floor', 'Rotating': 'Penthouse'
 };
+
+app.post('/blocks', parseUrlencoded, function(request, response) {
+    var newBlock = request.body;
+    blocks[newBlock.name] = newBlock.description;
+    
+    // 201 stands for "created"
+    response.status(201).json(newBlock.name);
+});
 
 // Accessing custom properties on request
 app.param('name', function(request, response, next) {
