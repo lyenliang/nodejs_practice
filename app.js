@@ -50,14 +50,13 @@ app.get('/locations/:name', function(request, response) {
 }); 
 
 app.get('/blocks', function(request, response) {
-    var blocks = ['Fixed', 'Movable', 'Rotating'];
     if (request.query.limit >= 0) {
         // localhost:3000/blocks?limit=0
         // localhost:3000/blocks?limit=1
         // ...
-        response.json(blocks.slice(0, request.query.limit));
+        response.json(Object.keys(blocks).slice(0, request.query.limit));
     } else {
-        response.json(blocks);
+        response.json(Object.keys(blocks));
     }
 });
 
