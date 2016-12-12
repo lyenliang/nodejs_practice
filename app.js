@@ -16,7 +16,9 @@ var blocks = {
 // dynamic route
 app.get('/blocks/:name', function(request, response) {
     // curl -i http://localhost:3000/blocks/Fixed
-    var description = blocks[request.params.name];
+    var name = request.params.name;
+    var block = name[0].toUpperCase() + name.slice(1).toLowerCase();
+    var description = blocks[block];
     if (!description) {
         // description is undefined
         response.status(404).json('No description found for ' + request.params.name);
